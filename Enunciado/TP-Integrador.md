@@ -97,3 +97,16 @@ Para aprobar el TFI (con 4) es necesario que:
 * **Desaprobado** sino
 
 ## Entrega del Trabajo Final Integrador
+
+* **Fecha Límite**: Martes 21/07/2020 23:59
+* **Formato de Entrega**:
+  - Generar un release en el proyecto en github
+  - Enviar un mail a `tpi-doc-uis@listas.unq.edu.ar` con:
+    + El link del release
+    + Las respuestas (justificadas y de forma clara) a las [preguntas
+      ya mencionadas](TP-Integrador.md#condiciones-de-aprobaci%C3%B3n-del-tfi)
+  - De no cumplirse con las pautas se considerá **Ausente**.
+
+[sheldon]: https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Pierre_ciseaux_feuille_l%C3%A9zard_spock_aligned.svg/240px-Pierre_ciseaux_feuille_l%C3%A9zard_spock_aligned.svg.png
+[wiki]: https://bigbangtheory.fandom.com/wiki/Rock,_Paper,_Scissors,_Lizard,_Spock
+[creators]: (http://www.samkass.com/theories/RPSSL.html)
