@@ -1,0 +1,66 @@
+/*!
+ * Hover.css (http://ianlunn.github.io/Hover/)
+ * Version: 2.3.2
+ * Author: Ian Lunn @IanLunn
+ * Author URL: http://ianlunn.co.uk/
+ * Github: https://github.com/IanLunn/Hover
+
+ * Hover.css Copyright Ian Lunn 2017. Generated with Sass.
+ */
+
+@import "options";
+@import "mixins";
+@import "hacks";
+
+/* 2D TRANSITIONS */
+@import "effects/2d-transitions/pop";
+@if $includeClasses {
+	.#{$nameSpace}-pop {
+		@include pop();
+	}
+}
+
+/* BACKGROUND TRANSITIONS */
+@import "effects/background-transitions/radial-out";
+@if $includeClasses {
+	.#{$nameSpace}-radial-out {
+		@include radial-out();
+	}
+}
+
+/* BORDER TRANSITIONS */
+@import "effects/border-transitions/ripple-out";
+@if $includeClasses {
+	.#{$nameSpace}-ripple-out {
+		@include ripple-out();
+	}
+}
+
+/* ICONS */
+@import "effects/icons/icon-grow";
+@if $includeClasses {
+	.#{$nameSpace}-icon-grow {
+		@include icon-grow();
+	}
+}
+
+@import "effects/icons/icon-bounce";
+@if $includeClasses {
+	.#{$nameSpace}-icon-bounce {
+		@include icon-bounce();
+	}
+}
+
+@import "effects/icons/icon-pop";
+@if $includeClasses {
+	.#{$nameSpace}-icon-pop {
+		@include icon-pop();
+	}
+}
+
+@import "effects/icons/icon-pulse-grow";
+@if $includeClasses {
+	.#{$nameSpace}-icon-pulse-grow {
+		@include icon-pulse-grow();
+	}
+}
