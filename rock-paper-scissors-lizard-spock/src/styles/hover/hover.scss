@@ -64,3 +64,11 @@
 		@include icon-pulse-grow();
 	}
 }
+
+/* SHADOW/GLOW TRANSITIONS */
+@import "effects/shadow-and-glow-transitions/grow-shadow";
+@if $includeClasses {
+	.#{$nameSpace}-grow-shadow {
+		@include grow-shadow();
+	}
+}
