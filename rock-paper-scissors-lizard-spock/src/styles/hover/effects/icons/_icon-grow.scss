@@ -10,12 +10,26 @@
 		@include prefixed(transition-timing-function, ease-out);
 	}
 
+	.hvr-icon-color {
+		@extend .hvr-icon;
+		@include prefixed(transition-property, "transform, filter");
+	}
+
 	&:hover,
 	&:focus,
 	&:active {
 
-		.hvr-icon {
+		%transform {
 			@include prefixed(transform, scale(1.3) translateZ(0));
+		}
+
+		.hvr-icon {
+			@extend %transform;
+		}
+
+		.hvr-icon-color {
+			@extend %transform;
+			@include prefixed(filter, invert(35%) sepia(94%) saturate(527%) hue-rotate(168deg) brightness(92%) contrast(92%));
 		}
 	}
 }

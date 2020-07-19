@@ -38,11 +38,12 @@ function App() {
       <Row>
         {/* <Col><Image src={roll} alt="roll" style={{cursor:"pointer"}} className="hvr-radial-out" onClick={() => alert("asd")}/></Col> */}
         <Col><a href="#" className="hvr-icon-grow"> texto <img src={roll} className="hvr-icon"/></a></Col>
-        <Col className="hvr-icon-pulse-grow"><Image src={lizard} alt="lizard" style={{cursor:"pointer"}} className="centered-img hvr-icon" roundedCircle/></Col>
-        <Col><div className="hvr-radial-out"><Image src={paper} alt="paper" className="centered-img" roundedCircle/></div></Col>
+        <Col className="hvr-icon-pulse-grow"><Image src={lizard} alt="lizard" style={{cursor:"pointer"}} className="centered-img hvr-icon-color" roundedCircle/></Col>
+        <Col><div><Image src={paper} alt="paper" className="centered-img hvr-glow" roundedCircle/></div></Col>
         <Col className="hvr-icon-grow"><Image src={rock} alt="rock" className="centered-img hvr-icon" roundedCircle/></Col>
         <Col className="hvr-icon-bounce"><Image src={scissors} alt="scissors" className="centered-img hvr-icon"/></Col>
-        <Col className="hvr-icon-pop"><Image src={spock} alt="spock" className="centered-img hvr-icon"/></Col>
+        {/* <Col className="hvr-icon-fade"><Image src={spock} alt="spock" className="centered-img hvr-icon"/></Col> */}
+        <Col><div className="hvr-icon-grow"><Image src={spock} alt="spock" className="centered-img hvr-icon-color"/></div></Col>
       </Row>
       <Row className="mt-5">
         <Col>

@@ -8,7 +8,7 @@
 @mixin icon-pulse-grow {
 	@include hacks();
 
-	.hvr-icon {
+	.hvr-icon, .hvr-icon-color {
 		@include prefixed(transform, translateZ(0));
 		@include prefixed(transition-timing-function, ease-out);
 	}
@@ -23,6 +23,11 @@
 			@include prefixed(animation-timing-function, linear);
 			@include prefixed(animation-iteration-count, infinite);
 			@include prefixed(animation-direction, alternate);
+		}
+
+		.hvr-icon-color {
+			@extend .hvr-icon;
+			@include prefixed(filter, invert(73%) sepia(58%) saturate(2175%) hue-rotate(40deg) brightness(88%) contrast(80%));
 		}
 	}
 }

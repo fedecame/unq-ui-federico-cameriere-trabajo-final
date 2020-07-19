@@ -1,6 +1,17 @@
+$imagesCustomPath: "../images";
+
 .centered-img {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+.spock-red-mask {
+    background-color: red;
+    mask: url('#{$imagesCustomPath}/spock.svg.png') no-repeat center / contain;
 }

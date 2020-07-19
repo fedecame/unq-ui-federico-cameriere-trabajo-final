@@ -65,10 +65,24 @@
 	}
 }
 
+@import "effects/icons/icon-fade";
+@if $includeClasses {
+	.#{$nameSpace}-icon-fade {
+		@include icon-fade();
+	}
+}
+
 /* SHADOW/GLOW TRANSITIONS */
 @import "effects/shadow-and-glow-transitions/grow-shadow";
 @if $includeClasses {
 	.#{$nameSpace}-grow-shadow {
 		@include grow-shadow();
+	}
+}
+
+@import "effects/shadow-and-glow-transitions/glow";
+@if $includeClasses {
+	.#{$nameSpace}-glow {
+		@include glow();
 	}
 }
