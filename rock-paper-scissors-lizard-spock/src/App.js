@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Spinner from 'react-bootstrap/Spinner';
 // import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
@@ -21,9 +20,9 @@ import Scissors from './options/Scissors';
 import Lizard from './options/Lizard';
 import Spock from './options/Spock';
 import OptionImage from './components/OptionImage';
+import Spinner from './components/Spinner';
 
 function App() {
-
   const [showSpinner, setShowSpinner] = useState(false);
   const [isEnabledGameMode, setIsEnabledGameMode] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
@@ -123,6 +122,9 @@ function App() {
         <Col>
           <h1>Selected option: {selectedOption ? selectedOption : <em>Please select an option</em>}</h1>
         </Col>
+        <Col>
+          <Spinner/>
+        </Col>
         {/* <Col>
           <Image src={rulesImage} alt="rules" className="centered-img"/>
         </Col>
@@ -137,7 +139,7 @@ function App() {
         </Col>
       </Row>
       <Row className={showSpinner ? "visible" : "dont-display"}>
-        <Spinner animation="border" variant="info" />
+        <Spinner/>
       </Row>
       <Row className={!showSpinner && victoryMsg ? "visible" : "dont-display"}>
         <h2>{firstSelection && secondSelection && `First player selected ${firstSelection.value} and ${gameMode === "PvE" ? "Computer" : "Second player"} picked ${secondSelection.value}`}</h2>

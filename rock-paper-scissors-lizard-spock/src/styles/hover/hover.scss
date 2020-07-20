@@ -44,11 +44,10 @@
 
 	.color-scissors {
 		@include prefixed(transition-property, transform);
-
 		&:hover,
 		&:focus,
 		&:active {
-			@include prefixed(filter, invert(66%) sepia(59%) saturate(5215%) hue-rotate(328deg) brightness(96%) contrast(87%));
+			@include prefixed(filter, invert(45%) sepia(74%) saturate(5777%) hue-rotate(0deg) brightness(101%) contrast(107%));
 		}
 	}
 }
