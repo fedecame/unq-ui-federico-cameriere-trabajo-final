@@ -4,7 +4,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Spinner from 'react-bootstrap/Spinner';
-import ListGroup from 'react-bootstrap/ListGroup';
+// import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import Button from 'react-bootstrap/Button';
 // import './App.css';
 import rulesImage from './images/2495px-Rock_paper_scissors_lizard_spock.svg.png';
@@ -23,11 +25,12 @@ import Spock from './options/Spock';
 function App() {
 
   const [showSpinner, setShowSpinner] = useState(false);
+  const [isEnabledGameMode, setIsEnabledGameMode] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
   const [victoryMsg, setVictoryMsg] = useState("");
   const [matchMsg, setMatchMsg] = useState("");
-  const [firstSelection, setFirstSelection] = useState("");
-  const [secondSelection, setSecondSelection] = useState("");
+  const [firstSelection, setFirstSelection] = useState(null);
+  const [secondSelection, setSecondSelection] = useState(null);
   const [gameMode, setGameMode] = useState("PvE");
   const options = [new Rock(), new Paper(), new Scissors(), new Lizard(), new Spock()];
 
@@ -41,15 +44,15 @@ function App() {
 
     if (!result) {
       const firstWins =  firstOption.defeats(secondOption.value);
+      message = firstWins ?
+      `${firstOption.value} ${firstOption.getDefeatMessage(secondOption.value)} ${secondOption.value}` :
+      `${secondOption.value} ${secondOption.getDefeatMessage(firstOption.value)} ${firstOption.value}`; 
       switch (gameMode) {
         case "PvE":
           result = firstWins ? "You won!" : "Computer Won...";
-          message = firstWins ?
-          `${firstOption.value} ${firstOption.getDefeatMessage(secondOption.value)} ${secondOption.value}` :
-          `${secondOption.value} ${secondOption.getDefeatMessage(firstOption.value)} ${firstOption.value}`; 
           break;
         case "PvP":
-  
+          result = firstWins ? "First player won!" : "Second player won!";
           break;
         default:
           console.log("Invalid game mode!");
@@ -70,11 +73,11 @@ function App() {
 
   const startSpinner = (miliseconds) => {
     setShowSpinner(true);
-    setTimeout(() => setShowSpinner(false), miliseconds);
+    setTimeout(() => {setShowSpinner(false); setIsEnabledGameMode(true);}, miliseconds);
   }
 
   const playVsPC = () => {
-    startSpinner(1500);
+    startSpinner(1750);
     const pcSelection = getRandomOption();
     const firstPlayerSelection = options.find(opt => opt.value === selectedOption);
     const matchResult = getMatchResult(firstPlayerSelection, pcSelection);
@@ -84,11 +87,27 @@ function App() {
     setSecondSelection(pcSelection);
   }
 
+  const playVsPlayer = () => {
+    if (firstSelection) {
+      startSpinner(1750);
+      const secondPlayerSelection = options.find(opt => opt.value === selectedOption);
+      setSecondSelection(secondPlayerSelection);
+      const matchResult = getMatchResult(firstSelection, secondPlayerSelection);
+      setVictoryMsg(matchResult.result);
+      setMatchMsg(matchResult.message);
+    } else {
+      const firstPlayerSelection = options.find(opt => opt.value === selectedOption);
+      setFirstSelection(firstPlayerSelection);
+      setIsEnabledGameMode(false);
+      setSelectedOption("");
+    }
+  }
+
   const resetGame = () => {
     setVictoryMsg("");
     setMatchMsg("");
-    setFirstSelection("");
-    setSecondSelection("");
+    setFirstSelection(null);
+    setSecondSelection(null);
     setSelectedOption("");
   }
 
@@ -104,12 +123,22 @@ function App() {
         <Col>
           <Image src={rulesImage} alt="rules" className="centered-img"/>
         </Col> */}
+        <Col>
+          <ToggleButtonGroup className="float-right" size="lg" type="radio" name="Game mode" value={gameMode} onChange={setGameMode}>
+            <ToggleButton variant="warning" type="radio" value={"PvE"} disabled={!isEnabledGameMode}>Player vs PC</ToggleButton>
+            <ToggleButton variant="warning" type="radio" value={"PvP"}>2 Players</ToggleButton>
+          </ToggleButtonGroup>
+          {/* <ButtonGroup aria-label="Game mode">
+            <Button size="lg" variant="warning">1 Player vs PC</Button>
+            <Button size="lg" variant="warning">2 Players</Button>
+          </ButtonGroup> */}
+        </Col>
       </Row>
       <Row className={showSpinner ? "visible" : "dont-display"}>
         <Spinner animation="border" variant="info" />
       </Row>
       <Row className={!showSpinner && victoryMsg ? "visible" : "dont-display"}>
-        <h2>{`First player selected ${firstSelection.value} and ${gameMode === "PvE" ? "Computer" : "Second player"} picked ${secondSelection.value}`}</h2>
+        <h2>{firstSelection && secondSelection && `First player selected ${firstSelection.value} and ${gameMode === "PvE" ? "Computer" : "Second player"} picked ${secondSelection.value}`}</h2>
         <h1>{victoryMsg}</h1>
       </Row>
       <Row className={!showSpinner && matchMsg ? "visible" : "dont-display"}>
@@ -186,8 +215,8 @@ function App() {
           <Button variant="success" block size="lg" onClick={resetGame}>
             <strong>Play again!</strong>
           </Button> :
-          <Button variant="info" block size="lg" onClick={playVsPC} disabled={showSpinner || !selectedOption}>
-            {selectedOption ? <strong>Play against computer</strong> : <em>Please select an option</em>}
+          <Button variant="info" block size="lg" onClick={gameMode === "PvE" ? playVsPC : playVsPlayer} disabled={showSpinner || !selectedOption}>
+            {selectedOption ? gameMode === "PvE" ? <strong>Play against computer</strong> : <strong>Finish selection</strong> : <em>Please select an option</em>}
           </Button>
         }
       </Row>
