@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image'
+import Image from 'react-bootstrap/Image';
+import Spinner from 'react-bootstrap/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 // import './App.css';
@@ -13,28 +14,182 @@ import rock from './images/rock.svg.png';
 import scissors from './images/scissors.svg.png';
 import spock from './images/spock.svg.png';
 import './styles/app.scss';
+import Rock from './options/Rock';
+import Paper from './options/Paper';
+import Scissors from './options/Scissors';
+import Lizard from './options/Lizard';
+import Spock from './options/Spock';
 
 function App() {
+
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [victoryMsg, setVictoryMsg] = useState("");
+  const [matchMsg, setMatchMsg] = useState("");
+  const [firstSelection, setFirstSelection] = useState("");
+  const [secondSelection, setSecondSelection] = useState("");
+  const [gameMode, setGameMode] = useState("PvE");
+  const options = [new Rock(), new Paper(), new Scissors(), new Lizard(), new Spock()];
+
+  const handleSelection = (event) => {
+    setSelectedOption(event.target.title);
+  }
+
+  const getMatchResult = (firstOption, secondOption) => {
+    let result = firstOption.value === secondOption.value ? "It was a tie." : "";
+    let message = "";
+
+    if (!result) {
+      const firstWins =  firstOption.defeats(secondOption.value);
+      switch (gameMode) {
+        case "PvE":
+          result = firstWins ? "You won!" : "Computer Won...";
+          message = firstWins ?
+          `${firstOption.value} ${firstOption.getDefeatMessage(secondOption.value)} ${secondOption.value}` :
+          `${secondOption.value} ${secondOption.getDefeatMessage(firstOption.value)} ${firstOption.value}`; 
+          break;
+        case "PvP":
+  
+          break;
+        default:
+          console.log("Invalid game mode!");
+          break;
+      }
+    }
+
+    return {result, message};
+  }
+  const getRandomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  const getRandomOption = () => {
+    return options[getRandomInt(0, options.length - 1)];
+  }
+
+  const startSpinner = (miliseconds) => {
+    setShowSpinner(true);
+    setTimeout(() => setShowSpinner(false), miliseconds);
+  }
+
+  const playVsPC = () => {
+    startSpinner(1500);
+    const pcSelection = getRandomOption();
+    const firstPlayerSelection = options.find(opt => opt.value === selectedOption);
+    const matchResult = getMatchResult(firstPlayerSelection, pcSelection);
+    setVictoryMsg(matchResult.result);
+    setMatchMsg(matchResult.message);
+    setFirstSelection(firstPlayerSelection);
+    setSecondSelection(pcSelection);
+  }
+
+  const resetGame = () => {
+    setVictoryMsg("");
+    setMatchMsg("");
+    setFirstSelection("");
+    setSecondSelection("");
+    setSelectedOption("");
+  }
+
   return (
     <Container fluid>
       <Row>
         <Col>
+          <h1>Selected option: {selectedOption ? selectedOption : <em>Please select an option</em>}</h1>
+        </Col>
+        {/* <Col>
           <Image src={rulesImage} alt="rules" className="centered-img"/>
         </Col>
         <Col>
           <Image src={rulesImage} alt="rules" className="centered-img"/>
+        </Col> */}
+      </Row>
+      <Row className={showSpinner ? "visible" : "dont-display"}>
+        <Spinner animation="border" variant="info" />
+      </Row>
+      <Row className={!showSpinner && victoryMsg ? "visible" : "dont-display"}>
+        <h2>{`First player selected ${firstSelection.value} and ${gameMode === "PvE" ? "Computer" : "Second player"} picked ${secondSelection.value}`}</h2>
+        <h1>{victoryMsg}</h1>
+      </Row>
+      <Row className={!showSpinner && matchMsg ? "visible" : "dont-display"}>
+        <h1>{matchMsg}</h1>
+      </Row>
+      <Row className={showSpinner || victoryMsg ? "dont-display" : "visible"}>
+        {/* <Col className="hvr-icon-pulse-grow"><Image src={lizard} alt="lizard" style={{cursor:"pointer"}} className="centered-img hvr-icon-color" roundedCircle/></Col> */}
+        <Col>
+          <div className="image-container">
+            <Image
+              src={lizard}
+              alt="lizard"
+              title="lizard"
+              onClick={handleSelection}
+              className="centered-img hvr-pulse-grow color-lizard"
+              roundedCircle
+            />
+          </div>
+        </Col>
+        <Col>
+          <div className="image-container">
+            <Image
+              src={paper}
+              alt="paper"
+              title="paper"
+              onClick={handleSelection}
+              className="centered-img hvr-glow color-paper"
+              roundedCircle
+            />
+          </div>
+        </Col>
+        {/* <Col className="hvr-icon-bounce"><Image src={scissors} alt="scissors" className="centered-img hvr-icon" roundedCircle/></Col> */}
+        <Col>
+          <div className="image-container">
+            <Image
+              src={scissors}
+              alt="scissors"
+              title="scissors"
+              onClick={handleSelection}
+              className="centered-img hvr-bounce-in color-scissors"
+              roundedCircle
+            />
+          </div>
+        </Col>
+        <Col>
+          <div className="hvr-radial-out image-container">
+            <Image
+              src={rock}
+              alt="rock"
+              title="rock"
+              onClick={handleSelection}
+              className="centered-img"
+              roundedCircle
+            />
+          </div>
+        </Col>
+        {/* <Col className="hvr-icon-fade"><Image src={spock} alt="spock" className="centered-img hvr-icon"/></Col> */}
+        {/* <Col><div className="hvr-icon-grow"><Image src={spock} alt="spock" className="centered-img hvr-icon-color"/></div></Col> */}
+        <Col>
+          <div className="image-container">
+            <Image
+              src={spock}
+              alt="spock"
+              title="spock"
+              onClick={handleSelection}
+              className="centered-img hvr-grow color-spock"
+              roundedCircle
+            />
+          </div>
         </Col>
       </Row>
       <Row>
-        {/* <Col className="hvr-icon-pulse-grow"><Image src={lizard} alt="lizard" style={{cursor:"pointer"}} className="centered-img hvr-icon-color" roundedCircle/></Col> */}
-        <Col><div className="image-container"><Image src={lizard} alt="lizard" style={{cursor:"pointer"}} className="centered-img hvr-pulse-grow color-lizard" roundedCircle/></div></Col>
-        <Col><div className="image-container"><Image src={paper} alt="paper" className="centered-img hvr-glow color-paper" roundedCircle/></div></Col>
-        <Col><div className="hvr-radial-out image-container"><Image src={rock} alt="rock" className="centered-img" roundedCircle/></div></Col>
-        {/* <Col className="hvr-icon-bounce"><Image src={scissors} alt="scissors" className="centered-img hvr-icon" roundedCircle/></Col> */}
-        <Col><div className="image-container"><Image src={scissors} alt="scissors" className="centered-img hvr-bounce-in color-scissors" roundedCircle/></div></Col>
-        {/* <Col className="hvr-icon-fade"><Image src={spock} alt="spock" className="centered-img hvr-icon"/></Col> */}
-        {/* <Col><div className="hvr-icon-grow"><Image src={spock} alt="spock" className="centered-img hvr-icon-color"/></div></Col> */}
-        <Col><div className="image-container"><Image src={spock} alt="spock" className="centered-img hvr-grow color-spock" roundedCircle/></div></Col>
+        {!showSpinner && victoryMsg ?
+          <Button variant="success" block size="lg" onClick={resetGame}>
+            <strong>Play again!</strong>
+          </Button> :
+          <Button variant="info" block size="lg" onClick={playVsPC} disabled={showSpinner || !selectedOption}>
+            {selectedOption ? <strong>Play against computer</strong> : <em>Please select an option</em>}
+          </Button>
+        }
       </Row>
     </Container>
   );
