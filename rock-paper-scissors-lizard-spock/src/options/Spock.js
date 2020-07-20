@@ -1,7 +1,7 @@
 const { default: Option } = require("./Option");
 
 export default class Spock extends Option {
-    constructor() {
-        super("spock", ["scissors", "rock"], ["smashes", "vaporizes"]);
+    constructor(image, imgClasses, contClasses) {
+        super("spock", ["scissors", "rock"], ["smashes", "vaporizes"], image, imgClasses, contClasses);
     }
 };

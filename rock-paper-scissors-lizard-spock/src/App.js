@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
 import Spinner from 'react-bootstrap/Spinner';
 // import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
@@ -10,17 +9,18 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import Button from 'react-bootstrap/Button';
 // import './App.css';
 import rulesImage from './images/2495px-Rock_paper_scissors_lizard_spock.svg.png';
-import lizard from './images/lizard.svg.png';
-import paper from './images/paper.svg.png';
-import rock from './images/rock.svg.png';
-import scissors from './images/scissors.svg.png';
-import spock from './images/spock.svg.png';
+import lizardImage from './images/lizard.svg.png';
+import paperImage from './images/paper.svg.png';
+import rockImage from './images/rock.svg.png';
+import scissorsImage from './images/scissors.svg.png';
+import spockImage from './images/spock.svg.png';
 import './styles/app.scss';
 import Rock from './options/Rock';
 import Paper from './options/Paper';
 import Scissors from './options/Scissors';
 import Lizard from './options/Lizard';
 import Spock from './options/Spock';
+import OptionImage from './components/OptionImage';
 
 function App() {
 
@@ -32,7 +32,13 @@ function App() {
   const [firstSelection, setFirstSelection] = useState(null);
   const [secondSelection, setSecondSelection] = useState(null);
   const [gameMode, setGameMode] = useState("PvE");
-  const options = [new Rock(), new Paper(), new Scissors(), new Lizard(), new Spock()];
+  const options = [
+    new Lizard(lizardImage, "hvr-pulse-grow color-lizard"),
+    new Paper(paperImage, "hvr-glow color-paper"),
+    new Scissors(scissorsImage, "hvr-bounce-in color-scissors"),
+    new Rock(rockImage, "", "hvr-radial-out"),
+    new Spock(spockImage, "hvr-grow color-spock")
+  ];
 
   const handleSelection = (event) => {
     setSelectedOption(event.target.title);
@@ -128,10 +134,6 @@ function App() {
             <ToggleButton variant="warning" type="radio" value={"PvE"} disabled={!isEnabledGameMode}>Player vs PC</ToggleButton>
             <ToggleButton variant="warning" type="radio" value={"PvP"}>2 Players</ToggleButton>
           </ToggleButtonGroup>
-          {/* <ButtonGroup aria-label="Game mode">
-            <Button size="lg" variant="warning">1 Player vs PC</Button>
-            <Button size="lg" variant="warning">2 Players</Button>
-          </ButtonGroup> */}
         </Col>
       </Row>
       <Row className={showSpinner ? "visible" : "dont-display"}>
@@ -145,70 +147,17 @@ function App() {
         <h1>{matchMsg}</h1>
       </Row>
       <Row className={showSpinner || victoryMsg ? "dont-display" : "visible"}>
-        {/* <Col className="hvr-icon-pulse-grow"><Image src={lizard} alt="lizard" style={{cursor:"pointer"}} className="centered-img hvr-icon-color" roundedCircle/></Col> */}
-        <Col>
-          <div className="image-container">
-            <Image
-              src={lizard}
-              alt="lizard"
-              title="lizard"
-              onClick={handleSelection}
-              className="centered-img hvr-pulse-grow color-lizard"
-              roundedCircle
+        {options.map(opt => (
+          <Col key={opt.value}>
+            <OptionImage
+              image={opt.image}
+              clickHandler={handleSelection}
+              name={opt.value}
+              imageClasses={opt.imageClasses}
+              containerClasses={opt.containerClasses}
             />
-          </div>
-        </Col>
-        <Col>
-          <div className="image-container">
-            <Image
-              src={paper}
-              alt="paper"
-              title="paper"
-              onClick={handleSelection}
-              className="centered-img hvr-glow color-paper"
-              roundedCircle
-            />
-          </div>
-        </Col>
-        {/* <Col className="hvr-icon-bounce"><Image src={scissors} alt="scissors" className="centered-img hvr-icon" roundedCircle/></Col> */}
-        <Col>
-          <div className="image-container">
-            <Image
-              src={scissors}
-              alt="scissors"
-              title="scissors"
-              onClick={handleSelection}
-              className="centered-img hvr-bounce-in color-scissors"
-              roundedCircle
-            />
-          </div>
-        </Col>
-        <Col>
-          <div className="hvr-radial-out image-container">
-            <Image
-              src={rock}
-              alt="rock"
-              title="rock"
-              onClick={handleSelection}
-              className="centered-img"
-              roundedCircle
-            />
-          </div>
-        </Col>
-        {/* <Col className="hvr-icon-fade"><Image src={spock} alt="spock" className="centered-img hvr-icon"/></Col> */}
-        {/* <Col><div className="hvr-icon-grow"><Image src={spock} alt="spock" className="centered-img hvr-icon-color"/></div></Col> */}
-        <Col>
-          <div className="image-container">
-            <Image
-              src={spock}
-              alt="spock"
-              title="spock"
-              onClick={handleSelection}
-              className="centered-img hvr-grow color-spock"
-              roundedCircle
-            />
-          </div>
-        </Col>
+          </Col>
+        ))}
       </Row>
       <Row>
         {!showSpinner && victoryMsg ?

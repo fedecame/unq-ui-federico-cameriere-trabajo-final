@@ -1,7 +1,7 @@
 const { default: Option } = require("./Option");
 
 export default class Rock extends Option {
-    constructor() {
-        super("rock", ["lizard", "scissors"], ["crushes", "crushes"]);
+    constructor(image, imgClasses, contClasses) {
+        super("rock", ["lizard", "scissors"], ["crushes", "crushes"], image, imgClasses, contClasses);
     }
 };
