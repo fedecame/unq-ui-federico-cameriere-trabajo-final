@@ -21,6 +21,7 @@ import Lizard from './options/Lizard';
 import Spock from './options/Spock';
 import OptionImage from './components/OptionImage';
 import Spinner from './components/Spinner';
+import Header from './components/Header';
 
 function App() {
   const [showSpinner, setShowSpinner] = useState(false);
@@ -32,7 +33,7 @@ function App() {
   const [secondSelection, setSecondSelection] = useState(null);
   const [gameMode, setGameMode] = useState("PvE");
   const options = [
-    new Lizard(lizardImage, "hvr-pulse-grow color-lizard"),
+    new Lizard(lizardImage, "hvr-pulse-grow color-lizard adjust-lizard-position"),
     new Paper(paperImage, "hvr-glow color-paper"),
     new Scissors(scissorsImage, "hvr-bounce-in color-scissors"),
     new Rock(rockImage, "", "hvr-radial-out"),
@@ -117,6 +118,12 @@ function App() {
   }
 
   return (
+    <>
+    <Header
+      gameMode={gameMode}
+      setGameMode={setGameMode}
+      isEnabledGameMode={isEnabledGameMode}
+    />
     <Container fluid>
       <Row>
         <Col>
@@ -127,16 +134,10 @@ function App() {
         </Col>
         {/* <Col>
           <Image src={rulesImage} alt="rules" className="centered-img"/>
-        </Col>
-        <Col>
+        </Col> */}
+        {/* <Col>
           <Image src={rulesImage} alt="rules" className="centered-img"/>
         </Col> */}
-        <Col>
-          <ToggleButtonGroup className="float-right" size="lg" type="radio" name="Game mode" value={gameMode} onChange={setGameMode}>
-            <ToggleButton variant="warning" type="radio" value={"PvE"} disabled={!isEnabledGameMode}>Player vs PC</ToggleButton>
-            <ToggleButton variant="warning" type="radio" value={"PvP"}>2 Players</ToggleButton>
-          </ToggleButtonGroup>
-        </Col>
       </Row>
       <Row className={showSpinner ? "visible" : "dont-display"}>
         <Spinner/>
@@ -148,17 +149,16 @@ function App() {
       <Row className={!showSpinner && matchMsg ? "visible" : "dont-display"}>
         <h1>{matchMsg}</h1>
       </Row>
-      <Row className={showSpinner || victoryMsg ? "dont-display" : "visible"}>
+      <Row className={showSpinner || victoryMsg ? "dont-display" : "visible"} xs={12} md={5}>
         {options.map(opt => (
-          <Col key={opt.value}>
             <OptionImage
+              key={opt.value}
               image={opt.image}
               clickHandler={handleSelection}
               name={opt.value}
               imageClasses={opt.imageClasses}
               containerClasses={opt.containerClasses}
             />
-          </Col>
         ))}
       </Row>
       <Row>
@@ -172,6 +172,7 @@ function App() {
         }
       </Row>
     </Container>
+    </>
   );
 }
 

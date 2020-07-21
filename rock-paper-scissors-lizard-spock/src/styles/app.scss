@@ -1,11 +1,13 @@
+@import "~bootstrap/scss/bootstrap";
+
 body {
-    background: url('../images/color-1909977_1920.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-  }
+  background: url('../images/color-1909977_1920.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
 
 .dont-display {
-    display: none !important;
+  display: none !important;
 }

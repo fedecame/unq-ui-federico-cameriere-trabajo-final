@@ -1,0 +1,22 @@
+.bg-violet {
+  background-color: #860D8F;
+}
+  
+.button-violet {
+  background-color: #472276 !important;
+  border-color: #472276 !important;
+  
+  &.focus, &:focus {
+    box-shadow: 0 0 0 .15rem rgba($color: #460e8f, $alpha: 0.5) !important;
+    border-color: #401e6d !important;
+  }
+
+  &.active, &:active {
+    background-color: #601495 !important;
+    border-color: #401e6d !important;
+  }
+
+  &:hover {
+    background-color: #450d8f !important;    
+  }
+}
