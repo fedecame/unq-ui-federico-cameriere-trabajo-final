@@ -2,11 +2,7 @@ import React, {useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-// import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
 import Button from 'react-bootstrap/Button';
-// import './App.css';
 import rulesImage from './images/2495px-Rock_paper_scissors_lizard_spock.svg.png';
 import lizardImage from './images/lizard.svg.png';
 import paperImage from './images/paper.svg.png';
@@ -83,7 +79,7 @@ function App() {
   }
 
   const playVsPC = () => {
-    startSpinner(1750);
+    startSpinner(20500);
     const pcSelection = getRandomOption();
     const firstPlayerSelection = options.find(opt => opt.value === selectedOption);
     const matchResult = getMatchResult(firstPlayerSelection, pcSelection);
@@ -95,7 +91,7 @@ function App() {
 
   const playVsPlayer = () => {
     if (firstSelection) {
-      startSpinner(1750);
+      startSpinner(20500);
       const secondPlayerSelection = options.find(opt => opt.value === selectedOption);
       setSecondSelection(secondPlayerSelection);
       const matchResult = getMatchResult(firstSelection, secondPlayerSelection);
@@ -127,10 +123,7 @@ function App() {
     <Container fluid>
       <Row>
         <Col>
-          <h1>Selected option: {selectedOption ? selectedOption : <em>Please select an option</em>}</h1>
-        </Col>
-        <Col>
-          <Spinner/>
+          <h1>Current choice: {selectedOption ? selectedOption : <em>Click any image</em>}</h1>
         </Col>
         {/* <Col>
           <Image src={rulesImage} alt="rules" className="centered-img"/>
@@ -139,8 +132,10 @@ function App() {
           <Image src={rulesImage} alt="rules" className="centered-img"/>
         </Col> */}
       </Row>
-      <Row className={showSpinner ? "visible" : "dont-display"}>
-        <Spinner/>
+      <Row className={showSpinner ? "justify-content-center" : "dont-display"}>
+        <Col xs={4} lg={1}>
+          <Spinner/>
+        </Col>
       </Row>
       <Row className={!showSpinner && victoryMsg ? "visible" : "dont-display"}>
         <h2>{firstSelection && secondSelection && `First player selected ${firstSelection.value} and ${gameMode === "PvE" ? "Computer" : "Second player"} picked ${secondSelection.value}`}</h2>
@@ -167,7 +162,7 @@ function App() {
             <strong>Play again!</strong>
           </Button> :
           <Button variant="info" block size="lg" onClick={gameMode === "PvE" ? playVsPC : playVsPlayer} disabled={showSpinner || !selectedOption}>
-            {selectedOption ? gameMode === "PvE" ? <strong>Play against computer</strong> : <strong>Finish selection</strong> : <em>Please select an option</em>}
+            {selectedOption ? gameMode === "PvE" ? <strong>Play against computer</strong> : <strong>Finish selection</strong> : <em>Click on an image</em>}
           </Button>
         }
       </Row>

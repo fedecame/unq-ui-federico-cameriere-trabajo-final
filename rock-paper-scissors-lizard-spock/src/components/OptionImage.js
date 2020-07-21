@@ -31,7 +31,7 @@ const OptionImage = ({image, clickHandler, name, imageClasses, containerClasses}
   return (
     <Col
       xs={shiftForResponsiveness(name)}
-      md={{span:0, offset:0}}
+      md={{span:0, order:0, offset:0}}
     >
     <div className={`image-container ${containerClasses}`}>
       <Image
