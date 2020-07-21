@@ -8,6 +8,40 @@ body {
   -o-background-size: cover;
 }
 
-.dont-display {
-  display: none !important;
+@include media-breakpoint-up(sm) {
+  html {
+    font-size: 1.1rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html {
+    font-size: 1.15rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  html {
+    font-size: 1.3rem;
+  }
+}
+
+.responsive-icon {
+  @include media-breakpoint-down(md) {
+    max-width: 2rem;
+  }
+
+  @include media-breakpoint-up(lg) {
+    max-width: 2.7rem;
+  }
+
+  @include media-breakpoint-up(xl) {
+    max-width: 3rem;
+  }
 }

@@ -39,7 +39,8 @@ const OptionImage = ({image, clickHandler, name, imageClasses, containerClasses}
         alt={name}
         title={name}
         onClick={clickHandler}
-        className={`centered-img ${imageClasses}`}
+        className={`cursor-pointer ${imageClasses}`}
+        fluid
         roundedCircle
       />
     </div>

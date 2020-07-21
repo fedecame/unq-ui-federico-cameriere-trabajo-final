@@ -1,9 +1,10 @@
 export default class Option {
-    constructor(value, defeatableOptions, defeatableMessages, image = null, imgClasses = "", contClasses = "") {
+    constructor(value, defeatableOptions, defeatableMessages, image = null, icon = null, imgClasses = "", contClasses = "") {
         this._value = value;
         this._defeatableOptions = defeatableOptions;
         this._defeatableMessages = defeatableMessages;
         this._image = image;
+        this._icon = icon;
         this._imageClasses = imgClasses;
         this._containerClasses = contClasses;
     }
@@ -12,12 +13,14 @@ export default class Option {
     get defeatableOptions() {return this._defeatableOptions};
     get defeatableMessages() {return this._defeatableMessages};
     get image() {return this._image};
+    get icon() {return this._icon};
     get imageClasses() {return this._imageClasses};
     get containerClasses() {return this._containerClasses};
 
     set defeatableOptions(newDefeatables) {return this._defeatableOptions = newDefeatables};
     set defeatableMessages(newDefeatableMessages) {return this._defeatableMessages = newDefeatableMessages};
     set image(newImage) {return this._image = newImage};
+    set icon(newIcon) {return this._icon = newIcon};
     set imageClasses(newImageClasses) {return this._imageClasses = newImageClasses};
     set containerClasses(newContainerClasses) {return this._containerClasses = newContainerClasses};
 
