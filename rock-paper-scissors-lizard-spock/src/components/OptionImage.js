@@ -3,22 +3,24 @@ import Image from 'react-bootstrap/Image';
 import Col from 'react-bootstrap/Col';
 import '../styles/option-img.scss';
 
-const azul = (nombre) => {
+const shiftForResponsiveness = (nombre) => {
   let ret = {span:4}
   switch (nombre) {
     case "lizard":
-      ret = {...ret, offset:4}
+      ret = {...ret, order:1, offset:4}
       break;
     case "paper":
-      ret = {...ret, offset:1}
+      ret = {...ret, order:2, offset:1}
       break;
     case "scissors":
-      ret = {...ret, offset:2}
+      ret = {...ret, order:4, offset:2}
       break;
     case "rock":
-      ret = {...ret, offset:2}
+      ret = {...ret, order:3, offset:2}
       break;
     case "spock":
+      ret = {...ret, order:5}
+      break;
     default:
       break;
   }
@@ -28,7 +30,7 @@ const azul = (nombre) => {
 const OptionImage = ({image, clickHandler, name, imageClasses, containerClasses}) => {
   return (
     <Col
-      xs={azul(name)}
+      xs={shiftForResponsiveness(name)}
       md={{span:0, offset:0}}
     >
     <div className={`image-container ${containerClasses}`}>
