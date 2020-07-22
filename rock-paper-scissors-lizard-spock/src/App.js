@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import rulesImage from './images/2495px-Rock_paper_scissors_lizard_spock.svg.png';
+// import rulesImage from './images/2495px-Rock_paper_scissors_lizard_spock.svg.png';
 import lizardImage from './images/lizard.svg.png';
 import lizardIcon from './images/icons/lizard.png';
 import paperImage from './images/paper.svg.png';
@@ -29,10 +29,10 @@ import Image from 'react-bootstrap/Image';
 
 function App() {
   const [showSpinner, setShowSpinner] = useState(false);
-  const [isEnabledGameMode, setIsEnabledGameMode] = useState(true);
+  const [disabledGameMode, setDisabledGameMode] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
   const [victoryMsg, setVictoryMsg] = useState("");
-  const [matchMsg, setMatchMsg] = useState("");
+  const [effectMsg, setEffectMsg] = useState("");
   const [firstSelection, setFirstSelection] = useState(null);
   const [secondSelection, setSecondSelection] = useState(null);
   const [gameMode, setGameMode] = useState("PvE");
@@ -49,20 +49,20 @@ function App() {
   }
 
   const getMatchResult = (firstOption, secondOption) => {
-    let result = firstOption.value === secondOption.value ? "It was a tie." : "";
+    let result = firstOption.value === secondOption.value ? "It's a tie." : "";
     let message = "";
 
     if (!result) {
       const firstWins =  firstOption.defeats(secondOption.value);
       message = firstWins ?
-      `${firstOption.value} ${firstOption.getDefeatMessage(secondOption.value)} ${secondOption.value}` :
-      `${secondOption.value} ${secondOption.getDefeatMessage(firstOption.value)} ${firstOption.value}`; 
+      `1st ${firstOption.getDefeatMessage(secondOption.value)}` :
+      `2nd ${secondOption.getDefeatMessage(firstOption.value)}`; 
       switch (gameMode) {
         case "PvE":
-          result = firstWins ? "You won!" : "Computer Won...";
+          result = firstWins ? "You win!" : "PC Wins...";
           break;
         case "PvP":
-          result = firstWins ? "First player won!" : "Second player won!";
+          result = firstWins ? "First player wins!" : "Second player wins!";
           break;
         default:
           console.log("Invalid game mode!");
@@ -83,15 +83,16 @@ function App() {
 
   const startSpinner = (miliseconds) => {
     setShowSpinner(true);
-    setTimeout(() => {setShowSpinner(false); setIsEnabledGameMode(true);}, miliseconds);
+    setTimeout(() => {setShowSpinner(false); setDisabledGameMode("");}, miliseconds);
   }
 
   const playVsPC = () => {
+    setDisabledGameMode("PvP");
     startSpinner(2500);
     const pcSelection = getRandomOption();
     const matchResult = getMatchResult(selectedOption, pcSelection);
     setVictoryMsg(matchResult.result);
-    setMatchMsg(matchResult.message);
+    setEffectMsg(matchResult.message);
     setFirstSelection(selectedOption);
     setSecondSelection(pcSelection);
   }
@@ -102,17 +103,17 @@ function App() {
       setSecondSelection(selectedOption);
       const matchResult = getMatchResult(firstSelection, selectedOption);
       setVictoryMsg(matchResult.result);
-      setMatchMsg(matchResult.message);
+      setEffectMsg(matchResult.message);
     } else {
+      setDisabledGameMode("PvE");
       setFirstSelection(selectedOption);
-      setIsEnabledGameMode(false);
       setSelectedOption("");
     }
   }
 
   const resetGame = () => {
     setVictoryMsg("");
-    setMatchMsg("");
+    setEffectMsg("");
     setFirstSelection(null);
     setSecondSelection(null);
     setSelectedOption("");
@@ -123,67 +124,70 @@ function App() {
     <Header
       gameMode={gameMode}
       setGameMode={setGameMode}
-      isEnabledGameMode={isEnabledGameMode}
+      disabledGameMode={disabledGameMode}
     />
+    {showSpinner && 
+      <div className="centered-absolute-container">
+        <Spinner/>
+      </div>
+    }
     <Container fluid>
       <Row className="mt-3 mb-3 justify-content-center">
-        <Col md={10} lg={9} xl={8}>
-          <Card bg="danger" text="light">
+        <Col sm={10} md={8} lg={7} xl={6}>
+          <Card bg="danger" text="light" className="text-center">
             {!selectedOption && 
-              <Card.Header className="text-center">
+              <Card.Header>
                 <strong>Click an image to play</strong>
               </Card.Header>
             }
             {selectedOption &&
-            <Card.Body className="text-center">
+            <Card.Body>
+                <Card.Text className="mb-0">
+                  {showSpinner && "Checking results..."}
+                  {!victoryMsg && !showSpinner &&
+                    <>
+                      Current choice: {selectedOption ? <strong className="text-capitalize">{`${selectedOption.value} `}</strong> : ""} {selectedOption ? <span className="d-inline-block responsive-icon"><Image src={selectedOption.icon} fluid/></span> :
+                      <em>Click any image</em>}
+                    </>
+                  }
+                </Card.Text>
                 {victoryMsg && !showSpinner &&
                   <>
                   <Card.Text>
-                    First player picked <strong className="text-capitalize">{`${firstSelection.value} `}</strong> <span className="d-inline-block responsive-icon"><Image src={firstSelection.icon} fluid/></span>
+                    <em>First player</em> picked <strong className="text-capitalize">{`${firstSelection.value} `}</strong> <span className="d-inline-block responsive-icon"><Image src={firstSelection.icon} fluid/></span>
                   </Card.Text>
                   <Card.Text>
-                    {gameMode === "PvE" ? "Computer" : "Second player"} picked <strong className="text-capitalize">{`${secondSelection.value} `}</strong> <span className="d-inline-block responsive-icon"><Image src={secondSelection.icon} fluid/></span>
-                  </Card.Text>
-                  <Card.Text>
-                    {matchMsg}
+                    <em>{victoryMsg.includes("wins") ? "Second player" : "Computer"}</em> picked <strong className="text-capitalize">{`${secondSelection.value} `}</strong> <span className="d-inline-block responsive-icon"><Image src={secondSelection.icon} fluid/></span>
                   </Card.Text>
                   </>
                 }
-                <Card.Text>
-                  {showSpinner ? 
-                    "Calculating winner..." :
-                    firstSelection && secondSelection ? victoryMsg :
-                    <>Current choice: {selectedOption ? <strong className="text-capitalize">{`${selectedOption.value} `}</strong> : ""} {selectedOption ? <span className="d-inline-block responsive-icon"><Image src={selectedOption.icon} fluid/></span> : <em>Click any image</em>}</>
-                  }
-                </Card.Text>
-                {/* <Card.Title>  </Card.Title> */}
-                {/* <Card.Text>
-                  <h3>Current choice: {selectedOption ? selectedOption : <em>Click any image</em>}</h3>
-                </Card.Text> */}
               </Card.Body>
             }
           </Card>
+          {victoryMsg && !showSpinner &&
+            <Card bg="warning" text="dark" className="text-center mt-3">
+              <Card.Header>
+                <strong>Match result</strong>
+              </Card.Header>
+              <Card.Body>
+                {effectMsg &&
+                  <Card.Text>
+                    {effectMsg.startsWith('1st') ?
+                      <><span className="d-inline-block responsive-icon"><Image src={firstSelection.icon} fluid/></span> {effectMsg.slice(4)} <span className="d-inline-block responsive-icon"><Image src={secondSelection.icon} fluid/></span></> :
+                      <><span className="d-inline-block responsive-icon"><Image src={secondSelection.icon} fluid/></span> {effectMsg.slice(4)} <span className="d-inline-block responsive-icon"><Image src={firstSelection.icon} fluid/></span></>
+                    }
+                  </Card.Text>
+                }
+                <Card.Text>
+                  <strong className="display-4">{victoryMsg}</strong>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          }
         </Col>
       </Row>
-      <Row>
-        {/* <Col>
-          <h1>Current choice: {selectedOption ? selectedOption : <em>Click any image</em>}</h1>
-        </Col> */}
-        {/* <Col>
-          <Image src={rulesImage} alt="rules" className="centered-img"/>
-        </Col> */}
-        {/* <Col>
-          <Image src={rulesImage} alt="rules" className="centered-img"/>
-        </Col> */}
-      </Row>
-      {showSpinner &&
-        <Row className="justify-content-center">
-          <Col xs={4} lg={1}>
-            <Spinner/>
-          </Col>
-        </Row>
-      }
-      <Row className={showSpinner || victoryMsg ? "d-none" : "visible"} xs={12} md={5}>
+      {!victoryMsg && !showSpinner && 
+        <Row xs={12} md={5}>
         {options.map(opt => (
             <OptionImage
               key={opt.value}
@@ -195,16 +199,26 @@ function App() {
             />
         ))}
       </Row>
-      <Row className="justify-content-center mt-3">
-        {!showSpinner && victoryMsg ?
-          <Button variant="success" block size="lg" onClick={resetGame}>
-            <strong>Play again!</strong>
-          </Button> :
-          <Button variant="info" size="lg" onClick={gameMode === "PvE" ? playVsPC : playVsPlayer} disabled={showSpinner || !selectedOption}>
-            {selectedOption ? gameMode === "PvE" ? <strong>Play against computer</strong> : <strong>Finish selection</strong> : <em>Click on an image</em>}
-          </Button>
-        }
-      </Row>
+      }
+      {selectedOption && !showSpinner &&
+        <Row className="mt-3">
+          <Col
+            xs={{span: 12, offset: 0}}
+            sm={{span: 8, offset: 2}}
+            md={{span: 6, offset: 3}}
+            xl={{span: 4, offset: 4}}
+          >
+          {victoryMsg ?
+            <Button variant="success" block size="lg" onClick={resetGame}>
+              <strong>Play again!</strong>
+            </Button> :
+            <Button variant="info" block size="lg" onClick={gameMode === "PvE" ? playVsPC : playVsPlayer}>
+              {gameMode === "PvE" ? <strong>Play against computer</strong> : <strong>Finish selection</strong>}
+            </Button>
+          }
+          </Col>
+        </Row>
+      }
     </Container>
     </>
   );

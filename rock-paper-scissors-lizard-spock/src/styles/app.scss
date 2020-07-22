@@ -45,3 +45,30 @@ body {
     max-width: 3rem;
   }
 }
+
+.centered-absolute-container {
+  position: absolute;
+  align-content: center;
+  top: 200px;
+
+  @include media-breakpoint-down(lg) {
+    left: 43%;
+  }
+
+  @include media-breakpoint-down(md) {
+    left: 40%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    left: 36%;
+  }
+
+  @include media-breakpoint-down(xs) {
+    left: 33%;
+  }
+
+  @include media-breakpoint-up(xl) {
+    left: 45%;
+    top: 230px;
+  }
+}
