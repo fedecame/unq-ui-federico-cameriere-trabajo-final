@@ -154,7 +154,7 @@ function App() {
             {selectedOption &&
             <Card.Body>
                 <Card.Text className="mb-0">
-                  {showSpinner && "Checking results..."}
+                  {showSpinner && "Loading results..."}
                   {!victoryMsg && !showSpinner &&
                     <>
                       Current choice: {selectedOption ? jsxOptionWithIcon(selectedOption) :
