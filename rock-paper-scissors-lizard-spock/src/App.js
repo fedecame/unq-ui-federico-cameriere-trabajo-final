@@ -46,7 +46,7 @@ function App() {
 
   const handleSelection = (event) => {
     setSelectedOption(options.find(opt => opt.value === event.target.title));
-  }
+  };
 
   const getMatchResult = (firstOption, secondOption) => {
     let result = firstOption.value === secondOption.value ? "It's a tie." : "";
@@ -71,20 +71,22 @@ function App() {
     }
 
     return {result, message};
-  }
+  };
+
   const getRandomInt = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+  };
+
   const getRandomOption = () => {
     return options[getRandomInt(0, options.length - 1)];
-  }
+  };
 
   const startSpinner = (miliseconds) => {
     setShowSpinner(true);
     setTimeout(() => {setShowSpinner(false); setDisabledGameMode("");}, miliseconds);
-  }
+  };
 
   const playVsPC = () => {
     setDisabledGameMode("PvP");
@@ -95,7 +97,7 @@ function App() {
     setEffectMsg(matchResult.message);
     setFirstSelection(selectedOption);
     setSecondSelection(pcSelection);
-  }
+  };
 
   const playVsPlayer = () => {
     if (firstSelection) {
@@ -109,7 +111,7 @@ function App() {
       setFirstSelection(selectedOption);
       setSelectedOption("");
     }
-  }
+  };
 
   const resetGame = () => {
     setVictoryMsg("");
@@ -117,7 +119,16 @@ function App() {
     setFirstSelection(null);
     setSecondSelection(null);
     setSelectedOption("");
-  }
+  };
+
+  const jsxOptionWithIcon = (option) => (
+    <>
+      <strong className="text-capitalize">{`${option.value} `}</strong>
+      {jsxIcon(option)}
+    </>
+  );
+
+  const jsxIcon = (option) => <span className="d-inline-block responsive-icon"><Image src={option.icon} fluid/></span>;
 
   return (
     <>
@@ -146,7 +157,7 @@ function App() {
                   {showSpinner && "Checking results..."}
                   {!victoryMsg && !showSpinner &&
                     <>
-                      Current choice: {selectedOption ? <strong className="text-capitalize">{`${selectedOption.value} `}</strong> : ""} {selectedOption ? <span className="d-inline-block responsive-icon"><Image src={selectedOption.icon} fluid/></span> :
+                      Current choice: {selectedOption ? jsxOptionWithIcon(selectedOption) :
                       <em>Click any image</em>}
                     </>
                   }
@@ -154,10 +165,10 @@ function App() {
                 {victoryMsg && !showSpinner &&
                   <>
                   <Card.Text>
-                    <em>First player</em> picked <strong className="text-capitalize">{`${firstSelection.value} `}</strong> <span className="d-inline-block responsive-icon"><Image src={firstSelection.icon} fluid/></span>
+                    <em>First player</em> picked {jsxOptionWithIcon(firstSelection)}
                   </Card.Text>
                   <Card.Text>
-                    <em>{victoryMsg.includes("wins") ? "Second player" : "Computer"}</em> picked <strong className="text-capitalize">{`${secondSelection.value} `}</strong> <span className="d-inline-block responsive-icon"><Image src={secondSelection.icon} fluid/></span>
+                    <em>{victoryMsg.includes("wins") ? "Second player" : "Computer"}</em> picked {jsxOptionWithIcon(secondSelection)}
                   </Card.Text>
                   </>
                 }
@@ -173,8 +184,8 @@ function App() {
                 {effectMsg &&
                   <Card.Text>
                     {effectMsg.startsWith('1st') ?
-                      <><span className="d-inline-block responsive-icon"><Image src={firstSelection.icon} fluid/></span> {effectMsg.slice(4)} <span className="d-inline-block responsive-icon"><Image src={secondSelection.icon} fluid/></span></> :
-                      <><span className="d-inline-block responsive-icon"><Image src={secondSelection.icon} fluid/></span> {effectMsg.slice(4)} <span className="d-inline-block responsive-icon"><Image src={firstSelection.icon} fluid/></span></>
+                      <>{jsxIcon(firstSelection)} <strong>{effectMsg.slice(4)}</strong> {jsxIcon(secondSelection)}</> :
+                      <>{jsxIcon(secondSelection)} <strong>{effectMsg.slice(4)}</strong> {jsxIcon(firstSelection)}</>
                     }
                   </Card.Text>
                 }
