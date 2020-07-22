@@ -1,0 +1,23 @@
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins/_breakpoints";
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.image-container {
+  @include media-breakpoint-down(lg) {
+    margin: .125rem;
+  }
+  margin: 1rem;
+}
+
+.adjust-lizard-position {
+  @include media-breakpoint-between(xs, sm) {
+    margin-bottom: -4rem;
+  }
+  @include media-breakpoint-down(xs) {
+    margin-bottom: -2.2rem;
+  }
+}

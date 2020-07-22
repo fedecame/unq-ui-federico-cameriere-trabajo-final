@@ -13,10 +13,57 @@
 @import "hacks";
 
 /* 2D TRANSITIONS */
+@import "effects/2d-transitions/grow";
+@if $includeClasses {
+	.#{$nameSpace}-grow {
+		@include grow();
+	}
+
+	.color-spock {
+		@include prefixed(transition-property, "transform, filter");
+		&:hover,
+		&:focus,
+		&:active {
+			@include prefixed(filter, invert(35%) sepia(94%) saturate(527%) hue-rotate(168deg) brightness(92%) contrast(92%));
+		}
+	}
+}
+
 @import "effects/2d-transitions/pop";
 @if $includeClasses {
 	.#{$nameSpace}-pop {
 		@include pop();
+	}
+}
+
+@import "effects/2d-transitions/bounce-in";
+@if $includeClasses {
+	.#{$nameSpace}-bounce-in {
+		@include bounce-in();
+	}
+
+	.color-scissors {
+		@include prefixed(transition-property, transform);
+		&:hover,
+		&:focus,
+		&:active {
+			@include prefixed(filter, invert(45%) sepia(74%) saturate(5777%) hue-rotate(0deg) brightness(101%) contrast(107%));
+		}
+	}
+}
+
+@import "effects/2d-transitions/pulse-grow";
+@if $includeClasses {
+	.#{$nameSpace}-pulse-grow {
+		@include pulse-grow();
+	}
+
+	.color-lizard {
+		&:hover,
+		&:focus,
+		&:active {
+			@include prefixed(filter, invert(73%) sepia(58%) saturate(2175%) hue-rotate(40deg) brightness(88%) contrast(80%));
+		}
 	}
 }
 
@@ -65,10 +112,33 @@
 	}
 }
 
+@import "effects/icons/icon-fade";
+@if $includeClasses {
+	.#{$nameSpace}-icon-fade {
+		@include icon-fade();
+	}
+}
+
 /* SHADOW/GLOW TRANSITIONS */
 @import "effects/shadow-and-glow-transitions/grow-shadow";
 @if $includeClasses {
 	.#{$nameSpace}-grow-shadow {
 		@include grow-shadow();
+	}
+}
+
+@import "effects/shadow-and-glow-transitions/glow";
+@if $includeClasses {
+	.#{$nameSpace}-glow {
+		@include glow();
+	}
+
+	.color-paper {
+		@include prefixed(transition-property, "box-shadow, filter");
+		&:hover,
+		&:focus,
+		&:active {
+			@include prefixed(filter, invert(81%) sepia(23%) saturate(732%) hue-rotate(354deg) brightness(104%) contrast(105%));
+		}
 	}
 }

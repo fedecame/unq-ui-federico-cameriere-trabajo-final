@@ -3,13 +3,13 @@
 	@include hacks();
 	position: relative;
 	overflow: hidden;
-    background: $primaryColor;
-    border: 1px hidden;
+    border: 0px hidden;
     border-radius:50%;
     -moz-border-radius:50%;
     -webkit-border-radius:50%;
-	@include prefixed(transition-property, color);
+	// @include prefixed(transition-property, color);
 	@include prefixed(transition-duration, $mediumDuration);
+	@include prefixed(transition-property, "color, filter");
 
 	&:before {
 		content: "";
@@ -19,7 +19,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-        background: $activeColor;
+        background: $rockColor;
         border-radius:50%;
         -moz-border-radius:50%;
         -webkit-border-radius:50%;
@@ -32,8 +32,8 @@
 	&:hover,
 	&:focus,
 	&:active {
-		color: white;
-
+		@include prefixed(filter, invert(67%) sepia(6%) saturate(281%) hue-rotate(236deg) brightness(106%) contrast(81%));
+		
 		&:before {
 			@include prefixed(transform, scale(2));
 		}
